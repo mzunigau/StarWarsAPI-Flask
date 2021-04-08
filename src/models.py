@@ -36,7 +36,6 @@ class Planet(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     
 
-
     def __repr__(self):
         return '<Planet %r>' % self.name
 
