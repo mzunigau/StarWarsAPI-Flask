@@ -69,7 +69,7 @@ class Favorites_Planets(db.Model):
     def serialize(self):
         return {
             "user_id": self.user_id,
-            "planet_id": self.email,
+            "planet_id": self.planet_id,
             # do not serialize the password, its a security breach
         }
 
