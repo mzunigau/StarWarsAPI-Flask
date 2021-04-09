@@ -31,7 +31,7 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def indexUsers():
     usuarios = User.query.all()
     usuarios = list(map(lambda x: x.serialize(), usuarios))
@@ -44,17 +44,17 @@ def indexPlanets():
     planets = list(map(lambda x: x.serialize(), planets))
     return jsonify(planets), 200
 
-@app.route('/user', methods=['POST'])
+@app.route('/users', methods=['POST'])
 def createUser():
     body = request.get_json() # get the request body content
-    userNew = User(username=body['username'], first_name=body['first_name'], last_name=body['last_name'], planets=body['planets'])
+    userNew = User(username=body['username'], first_name=body['first_name'], last_name=body['last_name'],email=body['email'],password=body['password'], is_active=body['is_active'])
     db.session.add(userNew)
     db.session.commit()
-    return jsonify(userNew), 200    
+    return jsonify(serialize(userNew)), 200    
 
     
 
-@app.route('/user/<int:id>', methods=['DELETE'])
+@app.route('/users/<int:id>', methods=['DELETE'])
 def deleteUsers(id):
     user = User.query.get(id)
     if user is None:
