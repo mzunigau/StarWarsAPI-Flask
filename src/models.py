@@ -34,7 +34,6 @@ class Planet(db.Model):
     __tablename__ = 'planetas'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    
 
     def __repr__(self):
         return '<Planet %r>' % self.name
@@ -42,9 +41,10 @@ class Planet(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name,
+            "name": self.name            
             # do not serialize the password, its a security breach
         }
+
 
 
         
