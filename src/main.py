@@ -37,6 +37,12 @@ def indexUsers():
     usuarios = list(map(lambda x: x.serialize(), usuarios))
     return jsonify(usuarios), 200
 
+@app.route('/planetsfavorites', methods=['GET'])
+def indexUsers():
+    usuarios = User.query.all()
+    usuarios = list(map(lambda x: x.serialize(), usuarios))
+    return jsonify(usuarios), 200
+
 @app.route('/planets', methods=['GET'])
 def indexPlanets():
     planets = Planet.query.all()
