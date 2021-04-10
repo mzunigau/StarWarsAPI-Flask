@@ -69,12 +69,8 @@ def updateUser(id):
 
 @app.route('/users/<int:id>', methods=['GET'])
 def getUser(id):
-    request_body = request.get_json()
-    user = User.query.get(id) 
-    if "characters" in request_body:
-        user.characters = request_body["characters"]
-    db.session.commit()
-    return jsonify(request_body), 200        
+    user = User.query.get(id)
+    return jsonify(serialize(user)), 200        
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def deleteUsers(id):
