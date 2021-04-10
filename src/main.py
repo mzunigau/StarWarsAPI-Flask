@@ -9,7 +9,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Planet
+from models import db, User, Planet, Character
 #from models import Person
 
 app = Flask(__name__)
@@ -52,7 +52,33 @@ def createUser():
     db.session.commit()
     return jsonify(serialize(userNew)), 200    
 
-    
+@app.route('/users/<int:id>', methods=['PUT'])
+def updateUser(id):
+    body = request.get_json()
+    user1 = User.query.get(id)
+    if user1 is None:
+        raise APIException('User not found', status_code=404)
+    #For para recorrer el listado del JSON
+    for char in body["characters"]:
+        #query para buscar el personaje
+        charNew = Character.query.get(char["id"]) 
+        #append para agregar el personaje al listado del user       
+        user1.characters.append(charNew)
+    characters = list(map(lambda x: x.serialize(), user1.characters))
+    user2 = serialize(user1)
+    user2 = characters
+
+    db.session.commit()   
+    return jsonify(user2), 200
+
+@app.route('/users/<int:id>', methods=['GET'])
+def getUser(id):
+    request_body = request.get_json()
+    user = User.query.get(id) 
+    if "characters" in request_body:
+        user.characters = request_body["characters"]
+    db.session.commit()
+    return jsonify(request_body), 200        
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def deleteUsers(id):
