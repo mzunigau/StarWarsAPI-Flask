@@ -63,13 +63,9 @@ def updateUser(id):
         #query para buscar el personaje
         charNew = Character.query.get(char["id"]) 
         #append para agregar el personaje al listado del user       
-        user1.characters.append(charNew)
-    characters = list(map(lambda x: x.serialize(), user1.characters))
-    user2 = serialize(user1)
-    user2 = characters
-
+    
     db.session.commit()   
-    return jsonify(user2), 200
+    return "POK", 200
 
 @app.route('/users/<int:id>', methods=['GET'])
 def getUser(id):
